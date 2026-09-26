@@ -1,61 +1,129 @@
-# Food Impact on Indians: Consumer Behaviour & Market Segmentation
+Food Impact on Indians: Consumer Behaviour & Market Segmentation
 
-A market research project that analyzes consumer food preferences, spending behaviour, and customer segments using the **Food Impact on Indians** survey dataset from Kaggle and **Orange Data Mining**.
+A market research project that analyzes food preferences and consumer behaviour across India, and groups respondents into actionable customer segments using K-Means clustering in Orange Data Mining.
 
-## Project Overview
+Show Image Show Image Show Image
 
-This project explores how demographic factors and food preferences influence consumer behaviour in India. Using visual analytics and K-Means clustering in Orange Data Mining, the analysis identifies meaningful customer segments and provides recommendations.
+<!-- HOW TO USE THIS TEMPLATE Every value in [square brackets] is a placeholder. Replace each one with your real results from Orange before publishing, and delete any row you don't have data for. Delete this comment when you're done. -->
+Project Overview
 
-## Objectives
+Food choices in India vary widely by age, income, region, and lifestyle. Businesses that treat all consumers the same miss these differences. This project uses survey data to answer three questions:
 
-* Analyze consumer food preferences.
-* Study spending behaviour across different demographics.
-* Identify customer segments using K-Means clustering.
-* Generate actionable market research insights.
+What do Indian consumers prefer to eat, and how often?
+How do these preferences change across demographic groups?
+Which distinct customer segments exist, and how should a business target each one?
 
-## Dataset
+The analysis is done entirely in Orange Data Mining, a visual, no-code analytics tool, which makes every step easy to follow and reproduce.
 
-* **Source:** Kaggle – Food Impact on Indians
-* **Size:** 17,686 survey responses
-* **Type:** Consumer survey dataset
+Business Questions
+#	Question	Method
+1	What does the typical respondent look like?	Distributions
+2	How do preferences differ by age, gender, and occupation?	Box Plot, Distributions
+3	How are behaviour variables related?	Scatter Plot
+4	What natural customer segments exist?	K-Means Clustering
+5	How should each segment be targeted?	Segment profiling
+Dataset
+Detail	Value
+Source	[Food Impact on Indians (Kaggle)]([ADD KAGGLE LINK])
+Type	Consumer survey
+Raw size	[17,686] responses × [N] columns
+After cleaning	[N] responses
+Key variables	[e.g. Age, Gender, Occupation, City, Food Preference, Frequency of Eating Out, Monthly Food Spend]
+Data preparation
+Removed [N] rows with missing values
+Selected [N] relevant columns with Select Columns
+Converted categorical answers to numeric features with Continuize (one-hot encoding)
+Scaled all features with Normalize so no single variable dominates the clustering
+Orange Workflow
+File → Select Columns → Continuize → Normalize → K-Means → Data Table
+  │                                                 │
+  ├→ Distributions                                  ├→ Scatter Plot (colored by cluster)
+  ├→ Box Plot                                       └→ Box Plot (compare clusters)
+  └→ Scatter Plot
 
-## Tools Used
+Show Image
 
-* Orange Data Mining
-* CSV
-* GitHub
+The full workflow file is available at orange_workflow/food_impact.ows.
 
-## Orange Workflow
+Exploratory Analysis
+Age Distribution
 
-`File → Select Columns → Distributions → Box Plot → Scatter Plot → K-Means → Data Table`
+Show Image
 
-## Key Visualizations
+[One or two sentences on what the chart shows, e.g. "Most respondents are aged 18–30, so results lean toward younger consumers."]
 
-* Age Distribution
-* Food Preference Distribution
-* Spending Behaviour Analysis
-* Customer Segmentation (K-Means)
+Food Preference Distribution
 
-*(Visualizations will be added after completing the analysis.)*
+Show Image
 
-## Insights
+[e.g. "[X]% of respondents are vegetarian, [Y]% non-vegetarian."]
 
-* Identify high-value consumer segments.
-* Understand purchase behaviour across age groups.
-* Compare spending patterns among different consumer groups.
-* Support targeted marketing strategies.
+Spending Behaviour
 
-## Repository Structure
+Show Image
 
+[e.g. "Working professionals spend a median of ₹[X] per month on food, about [Y]% more than students."]
+
+Customer Segmentation (K-Means)
+Choosing the number of clusters
+
+K-Means was run for k = 2 to [8]. The value of k with the highest silhouette score was selected.
+
+k	Silhouette Score
+2	[0.00]
+3	[0.00]
+4	[0.00]
+5	[0.00]
+
+Selected k = [N] because [it had the highest silhouette score / it gave the clearest, most usable segments].
+
+Show Image
+
+Segment Profiles
+Segment	Name	Size	Typical Age	Food Preference	Spending	Key Behaviour
+C1	[e.g. Budget Students]	[N] ([X]%)	[18–24]	[ ]	[Low]	[ ]
+C2	[e.g. Health-Conscious Professionals]	[N] ([X]%)	[25–35]	[ ]	[High]	[ ]
+C3	[e.g. Traditional Home Cooks]	[N] ([X]%)	[35+]	[ ]	[Medium]	[ ]
+C4	[ ]	[N] ([X]%)	[ ]	[ ]	[ ]	[ ]
+Key Insights
+[Headline finding]: [Supporting number, e.g. "Segment C2 is only 18% of respondents but accounts for 35% of total food spending."]
+[Headline finding]: [Supporting number]
+[Headline finding]: [Supporting number]
+[Headline finding]: [Supporting number]
+Recommendations
+Segment	Recommended Strategy
+[Budget Students]	[e.g. Value combos, student discounts, and delivery offers during exam season]
+[Health-Conscious Professionals]	[e.g. Premium healthy meal subscriptions and nutrition labelling]
+[Traditional Home Cooks]	[e.g. Quality staples, bulk packs, and regional recipe marketing]
+[ ]	[ ]
+Repository Structure
 Food-Impact-on-Indians-Market-Research/
-├── data/
-├── orange_workflow/
-├── outputs/
-├── report/
+├── data/               # Raw and cleaned survey CSV files
+├── orange_workflow/    # Orange workflow file (.ows)
+├── outputs/            # Charts, cluster plots, and workflow screenshot
+├── report/             # Full written report (PDF)
 └── README.md
+How to Reproduce
+Install Orange Data Mining (version [3.x]).
+Clone this repository:
+bash
+   git clone https://github.com/akritik12/Food-Impact-on-Indians-Market-Research.git
+Open orange_workflow/food_impact.ows in Orange.
+In the File widget, select the CSV from the data/ folder.
+Open any widget to view its output.
+Tools Used
+Orange Data Mining [3.x]: data preparation, visualization, and clustering
+[Excel / Python]: initial data cleaning (remove if not used)
+Limitations
+Self-reported data: survey answers may not match real behaviour.
+Sample bias: respondents may not represent India's full population across regions, incomes, and ages.
+K-Means assumptions: it works best with round, similar-sized clusters and is sensitive to scaling and the choice of k.
+Encoded categories: one-hot encoding survey answers can give some questions more weight than others in the clustering.
+Future Improvements
+ Build an interactive dashboard in Power BI or Tableau
+ Compare K-Means with Hierarchical Clustering and DBSCAN
+ Add region-level analysis across Indian states
+ Predict segment membership for new customers with a classification model
+Author
 
-## Future Improvements
-
-* Interactive dashboard
-* Additional demographic analysis
-* Expanded segmentation models
+Akriti Kachroo Portfolio: akritik12.github.io
