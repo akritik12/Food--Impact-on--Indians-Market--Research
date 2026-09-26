@@ -23,8 +23,9 @@ Rather than only summarizing survey responses, this project uses PCA and visual 
 
 * **Who the respondents are:** 54% vegetarian, 49% sedentary, and 47% in the obese BMI range, with diabetes the most reported condition (15%).
 * **Diet and exercise are unrelated:** about half of every diet group is sedentary, so knowing someone's diet tells you nothing about how much they exercise.
-* **Region doesn't predict cuisine:** each of the 7 cuisines makes up 13–15% of respondents in every region. For example, South Indian cuisine is no more common in the South than in the North.
-* **PCA found no dominant patterns:** the first two components explain only **9.4%** of the variance, and 14 components are needed to reach 50%.
+* **Health conditions don't change exercise habits either:** about half of people in every disease group are sedentary.
+* **Region doesn't predict cuisine:** each of the 7 cuisines makes up 13–15% of respondents in every region (χ² = 17.44, p = 0.829). For example, South Indian cuisine is no more common in the South than in the North.
+* **PCA found no dominant patterns:** the first two components explain only **9.2%** of the variance, and even 20 components explain only about 69%.
 * **Conclusion:** the variables appear to be **independent and randomly generated**. The dataset is useful for practising Orange workflows but should not be used for real business decisions.
 
 ---
