@@ -1,41 +1,31 @@
-# Food Impact on Indians: Consumer Behaviour & Market Segmentation
-
-> A market research project that analyzes food preferences and consumer behaviour across India, and groups respondents into actionable customer segments using **K-Means clustering** in **Orange Data Mining**.
+# Consumer Food Preferences Analysis
 
 ![Orange](https://img.shields.io/badge/Orange-Data%20Mining-orange)
-![Method](https://img.shields.io/badge/Method-K--Means%20Clustering-blue)
-![Domain](https://img.shields.io/badge/Domain-Market%20Research-green)
+![PCA](https://img.shields.io/badge/Method-PCA-blue)
+![EDA](https://img.shields.io/badge/EDA-Exploratory%20Analysis-green)
+![Visualization](https://img.shields.io/badge/Data-Visualization-purple)
 
-<!--
-  HOW TO USE THIS TEMPLATE
-  Every value in [square brackets] is a placeholder. Replace each one with your real
-  results from Orange before publishing, and delete any row you don't have data for.
-  Delete this comment when you're done.
--->
+An end-to-end consumer analytics project that explores food preferences, dietary habits, and lifestyle patterns of **17,686 survey respondents** using **Orange Data Mining**. It combines exploratory data analysis, **Principal Component Analysis (PCA)**, and visual analytics to test which consumer behaviour patterns the data actually supports.
+
+The whole analysis is built as a visual Orange workflow, so every step is reproducible without writing code.
 
 ---
 
-## Project Overview
+## Why analyze consumer food preferences?
 
-Food choices in India vary widely by age, income, region, and lifestyle. Businesses that treat all consumers the same miss these differences. This project uses survey data to answer three questions:
+Food choices are shaped by lifestyle, health, region, and habits. Understanding these links helps businesses position products, segment customers, and target marketing.
 
-1. **What** do Indian consumers prefer to eat, and how often?
-2. **How** do these preferences change across demographic groups?
-3. **Which** distinct customer segments exist, and how should a business target each one?
-
-The analysis is done entirely in **Orange Data Mining**, a visual, no-code analytics tool, which makes every step easy to follow and reproduce.
+Rather than only summarizing survey responses, this project uses PCA and visual analytics to check whether the data contains **real, usable patterns** before drawing business conclusions.
 
 ---
 
-## Business Questions
+## TL;DR
 
-| # | Question | Method |
-| --- | --- | --- |
-| 1 | What does the typical respondent look like? | Distributions |
-| 2 | How do preferences differ by age, gender, and occupation? | Box Plot, Distributions |
-| 3 | How are behaviour variables related? | Scatter Plot |
-| 4 | What natural customer segments exist? | K-Means Clustering |
-| 5 | How should each segment be targeted? | Segment profiling |
+* **Who the respondents are:** 54% vegetarian, 49% sedentary, and 47% in the obese BMI range, with diabetes the most reported condition (15%).
+* **Diet and exercise are unrelated:** about half of every diet group is sedentary, so knowing someone's diet tells you nothing about how much they exercise.
+* **Region doesn't predict cuisine:** each of the 7 cuisines makes up 13–15% of respondents in every region. For example, South Indian cuisine is no more common in the South than in the North.
+* **PCA found no dominant patterns:** the first two components explain only **9.4%** of the variance, and 14 components are needed to reach 50%.
+* **Conclusion:** the variables appear to be **independent and randomly generated**. The dataset is useful for practising Orange workflows but should not be used for real business decisions.
 
 ---
 
@@ -43,152 +33,187 @@ The analysis is done entirely in **Orange Data Mining**, a visual, no-code analy
 
 | Detail | Value |
 | --- | --- |
-| Source | [Food Impact on Indians (Kaggle)]([ADD KAGGLE LINK]) |
-| Type | Consumer survey |
-| Raw size | [17,686] responses × [N] columns |
-| After cleaning | [N] responses |
-| Key variables | [e.g. Age, Gender, Occupation, City, Food Preference, Frequency of Eating Out, Monthly Food Spend] |
+| Source | [Food Impact on Indians (Kaggle)](https://www.kaggle.com/datasets/harry5760/food-impact-on-indians) |
+| File | `data/food_impact_india.csv` |
+| Size | 17,686 rows × 16 columns, no duplicates |
 
-### Data preparation
+| Category | Variables |
+| --- | --- |
+| Demographics | Age (18–69), Gender, Region (North, South, East, West, Central) |
+| Diet Type | Vegetarian, Non-Vegetarian, Vegan |
+| Food Preferences | Primary Cuisine (7 regional cuisines), Spice Level, Sugar Intake, Salt Intake |
+| Eating Habits | Daily Calorie Intake (1,200–3,500), Food Frequency (1–6 meals/day) |
+| Lifestyle | Exercise Level (Sedentary, Moderate, Active) |
+| Health | BMI, Health Score (1–100), Health Impact, Common Diseases (Diabetes, Obesity, Hypertension, Cardiac Issues) |
 
-* Removed [N] rows with missing values
-* Selected [N] relevant columns with **Select Columns**
-* Converted categorical answers to numeric features with **Continuize** (one-hot encoding)
-* Scaled all features with **Normalize** so no single variable dominates the clustering
-
----
-
-## Orange Workflow
-
-```
-File → Select Columns → Continuize → Normalize → K-Means → Data Table
-  │                                                 │
-  ├→ Distributions                                  ├→ Scatter Plot (colored by cluster)
-  ├→ Box Plot                                       └→ Box Plot (compare clusters)
-  └→ Scatter Plot
-```
-
-![Orange Workflow](outputs/orange_workflow.png)
-
-The full workflow file is available at [`orange_workflow/food_impact.ows`](orange_workflow/food_impact.ows).
+`Common_Diseases` is blank for 60% of respondents. These rows were kept and read as "no disease reported," since removing them would discard most of the data.
 
 ---
 
-## Exploratory Analysis
+## Method
 
-### Age Distribution
-![Age Distribution](outputs/age_distribution.png)
+The analysis was built entirely in Orange Data Mining as a visual workflow:
 
-[One or two sentences on what the chart shows, e.g. "Most respondents are aged 18–30, so results lean toward younger consumers."]
-
-### Food Preference Distribution
-![Food Preference Distribution](outputs/food_preference_distribution.png)
-
-[e.g. "[X]% of respondents are vegetarian, [Y]% non-vegetarian."]
-
-### Spending Behaviour
-![Spending Behaviour](outputs/spending_boxplot.png)
-
-[e.g. "Working professionals spend a median of ₹[X] per month on food, about [Y]% more than students."]
+1. **Data preprocessing:** load the CSV and use **Select Columns** to ignore `Person_ID` and set `Health_Score` as the target.
+2. **Exploratory data analysis:** use **Distributions** to examine each variable and split it by group.
+3. **Principal Component Analysis:** use **PCA** (with normalized variables) to measure how much of the variation a few components can capture.
+4. **Behavioural analysis:** use **Box Plot** and **Distributions** to compare exercise, BMI, and health across diet groups.
+5. **Regional analysis:** compare cuisine preferences across the five regions.
+6. **Insight generation:** turn the visual patterns into findings, and check whether they are strong enough to act on.
 
 ---
 
-## Customer Segmentation (K-Means)
+## Key Objectives
 
-### Choosing the number of clusters
+* Profile consumer food preferences and lifestyle habits
+* Test whether PCA can reduce the data to a few meaningful dimensions
+* Analyze the relationship between diet and exercise
+* Compare regional cuisine preferences across India
+* Show how Orange's visual workflow supports consumer analytics
 
-K-Means was run for k = 2 to [8]. The value of k with the highest silhouette score was selected.
+---
 
-| k | Silhouette Score |
-| ---: | ---: |
-| 2 | [0.00] |
-| 3 | [0.00] |
-| 4 | [0.00] |
-| 5 | [0.00] |
+## Results
 
-**Selected k = [N]** because [it had the highest silhouette score / it gave the clearest, most usable segments].
+| Analysis | Question | Finding |
+| --- | --- | --- |
+| Consumer Profile | Who are the respondents? | Mostly vegetarian (54%), sedentary (49%), and obese by BMI (47%) |
+| PCA | Can a few components summarize the data? | No. PC1 and PC2 explain only 9.4% of the variance. |
+| Diet vs Exercise | Do diet groups exercise differently? | No. Sedentary share is 49–51% in every diet group. |
+| Regional Cuisine | Does region predict cuisine? | No. Every cuisine is 13–15% of every region. |
 
-![Cluster Scatter Plot](outputs/kmeans_clusters.png)
+---
 
-### Segment Profiles
+## Analysis Preview
 
-| Segment | Name | Size | Typical Age | Food Preference | Spending | Key Behaviour |
-| --- | --- | ---: | --- | --- | --- | --- |
-| C1 | [e.g. Budget Students] | [N] ([X]%) | [18–24] | [ ] | [Low] | [ ] |
-| C2 | [e.g. Health-Conscious Professionals] | [N] ([X]%) | [25–35] | [ ] | [High] | [ ] |
-| C3 | [e.g. Traditional Home Cooks] | [N] ([X]%) | [35+] | [ ] | [Medium] | [ ] |
-| C4 | [ ] | [N] ([X]%) | [ ] | [ ] | [ ] | [ ] |
+### Orange Workflow
+
+The full analysis was built with Orange's visual programming interface, covering preprocessing, exploratory analysis, PCA, and behavioural visualization.
+
+![Orange Workflow](outputs/figures/workflow.png)
+
+### Consumer Profile
+
+| Attribute | Breakdown |
+| --- | --- |
+| Gender | Female 48.2% · Male 47.6% · Non-Binary 4.2% |
+| Diet Type | Vegetarian 54.4% · Non-Vegetarian 40.6% · Vegan 4.9% |
+| Spice Level | Medium 49.6% · High 25.5% · Low 24.9% |
+| Exercise Level | Sedentary 49.5% · Moderate 30.3% · Active 20.2% |
+| BMI | Normal 29.4% · Overweight 23.8% · Obese 46.8% |
+| Reported Disease | None 60.2% · Diabetes 14.9% · Obesity 9.9% · Hypertension 9.8% · Cardiac 5.2% |
+
+### Principal Component Analysis (PCA)
+
+PCA was applied to all 14 features. Categorical variables were one-hot encoded, giving 41 columns, and all columns were normalized.
+
+| Components | Variance Explained |
+| --- | ---: |
+| PC1 | 4.7% |
+| PC1 + PC2 | 9.4% |
+| Components needed for 50% | 14 |
+| Components needed for 80% | 24 |
+
+In a dataset with strong patterns, the first few components usually explain most of the variance and the curve rises steeply. Here, the variance is spread almost evenly across components and the curve rises slowly. This means there are **no dominant underlying patterns** for PCA to compress.
+
+![PCA Explained Variance](outputs/figures/pca_analysis.png)
+
+### Diet Type and Exercise Patterns
+
+| Diet Type | Sedentary | Moderate | Active |
+| --- | ---: | ---: | ---: |
+| Vegetarian | 49.8% | 30.4% | 19.8% |
+| Non-Vegetarian | 48.9% | 30.2% | 20.9% |
+| Vegan | 50.5% | 30.6% | 19.0% |
+
+Sedentary behaviour is the most common exercise level in every diet group. However, the three groups are almost identical, which shows that **diet type and exercise level are not related** in this dataset.
+
+![Diet Type vs Exercise Level](outputs/figures/diet_exercise_analysis.png)
+
+### Regional Cuisine Preferences
+
+Each of the seven cuisines accounts for between **12.9% and 15.3%** of respondents in every region. In real data, you would expect regional cuisines to dominate their home regions, for example Bengali cuisine in the East or South Indian cuisine in the South. That pattern does not appear here.
+
+![Regional Cuisine Preferences](outputs/figures/regional_cuisine_preferences.png)
 
 ---
 
 ## Key Insights
 
-1. **[Headline finding]:** [Supporting number, e.g. "Segment C2 is only 18% of respondents but accounts for 35% of total food spending."]
-2. **[Headline finding]:** [Supporting number]
-3. **[Headline finding]:** [Supporting number]
-4. **[Headline finding]:** [Supporting number]
+1. **Clear consumer profile:** most respondents are vegetarian, eat medium-spice food, and are sedentary. These would be useful targeting facts **if the data were real**.
+2. **No links between behaviours:** diet, exercise, region, and cuisine are all independent of each other.
+3. **PCA confirms it:** with variance spread evenly across dozens of components, there are no hidden patterns to find.
+4. **Validate before you recommend:** checking relationships first prevented this project from presenting random variation as consumer insight.
 
 ---
 
-## Recommendations
+## Business Applications
 
-| Segment | Recommended Strategy |
-| --- | --- |
-| [Budget Students] | [e.g. Value combos, student discounts, and delivery offers during exam season] |
-| [Health-Conscious Professionals] | [e.g. Premium healthy meal subscriptions and nutrition labelling] |
-| [Traditional Home Cooks] | [e.g. Quality staples, bulk packs, and regional recipe marketing] |
-| [ ] | [ ] |
+With real survey data, this same Orange workflow could support:
+
+* Consumer segmentation
+* Food product marketing and positioning
+* Lifestyle-based customer targeting
+* Regional menu and product planning
+* Data-quality checks before survey results are used for decisions
 
 ---
 
-## Repository Structure
+## Skills Demonstrated
+
+* Orange Data Mining
+* Exploratory Data Analysis (EDA)
+* Principal Component Analysis (PCA)
+* Consumer and Survey Data Analysis
+* Data Visualization
+* Data Quality Assessment
+* Market Research
+* Business Insight Generation
+
+---
+
+## Quickstart
+
+1. Install [Orange Data Mining](https://orangedatamining.com/download/).
+2. Open `orange_workflow/food_preferences_analysis.ows` in Orange.
+3. In the **File** widget, select `data/food_impact_india.csv`.
+4. Open any widget to view its output and regenerate the figures.
+
+---
+
+## Project Structure
 
 ```
-Food-Impact-on-Indians-Market-Research/
-├── data/               # Raw and cleaned survey CSV files
-├── orange_workflow/    # Orange workflow file (.ows)
-├── outputs/            # Charts, cluster plots, and workflow screenshot
-├── report/             # Full written report (PDF)
+consumer-food-preferences-analysis/
+├── data/
+│   ├── food_impact_india.csv
+│   └── dataset_readme.md
+├── orange_workflow/
+│   └── food_preferences_analysis.ows
+├── outputs/
+│   └── figures/
+│       ├── workflow.png
+│       ├── pca_analysis.png
+│       ├── diet_exercise_analysis.png
+│       └── regional_cuisine_preferences.png
 └── README.md
 ```
 
 ---
 
-## How to Reproduce
-
-1. Install [Orange Data Mining](https://orangedatamining.com/download/) (version [3.x]).
-2. Clone this repository:
-   ```bash
-   git clone https://github.com/akritik12/Food-Impact-on-Indians-Market-Research.git
-   ```
-3. Open `orange_workflow/food_impact.ows` in Orange.
-4. In the **File** widget, select the CSV from the `data/` folder.
-5. Open any widget to view its output.
-
----
-
-## Tools Used
-
-* **Orange Data Mining [3.x]:** data preparation, visualization, and clustering
-* **[Excel / Python]:** initial data cleaning *(remove if not used)*
-
----
-
-## Limitations
-
-* **Self-reported data:** survey answers may not match real behaviour.
-* **Sample bias:** respondents may not represent India's full population across regions, incomes, and ages.
-* **K-Means assumptions:** it works best with round, similar-sized clusters and is sensitive to scaling and the choice of k.
-* **Encoded categories:** one-hot encoding survey answers can give some questions more weight than others in the clustering.
-
----
-
 ## Future Improvements
 
-* [ ] Build an interactive dashboard in Power BI or Tableau
-* [ ] Compare K-Means with Hierarchical Clustering and DBSCAN
-* [ ] Add region-level analysis across Indian states
-* [ ] Predict segment membership for new customers with a classification model
+* Repeat the analysis on a real consumer survey with spending and purchase data
+* Apply clustering to test for consumer segments
+* Build a predictive model for food preference classification
+* Compare Orange workflows with Python implementations
+* Create an interactive dashboard for exploring consumer groups
+
+---
+
+## Disclaimer
+
+Educational portfolio project demonstrating consumer analytics, exploratory data analysis, and Orange Data Mining techniques. The dataset appears to be synthetic, so its findings should not be applied to the real Indian population.
 
 ---
 
